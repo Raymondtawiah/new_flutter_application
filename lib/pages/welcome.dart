@@ -2,24 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Kinetic Pulse Design System Colors
-class KineticPulseColors {
-  static const Color baseGround = Color(0xFF08090A);
-  static const Color surfaceTier1 = Color(0xFF121418);
-  static const Color surfaceTier2 = Color(0xFF1A1D24);
-  static const Color surfaceTier3 = Color(0xFF242833);
-  
-  // Neon Accents
-  static const Color electricLime = Color(0xFFD8FF00); // Primary Action
-  static const Color textOnLime = Color(0xFF0D0E11);
-  static const Color neonCyan = Color(0xFF00F0FF);     // Secondary Telemetry
-  static const Color blazeOrange = Color(0xFFFF4D00);  // High Exertion
-  
-  // Neutrals
-  static const Color textPrimary = Color(0xFFF4F6FB);
-  static const Color textSecondary = Color(0xFF8D93A5);
-  static const Color hairline = Color(0x1AFFFFFF);     // 10% white
-}
+import 'training_lab.dart';
+import 'auth.dart';
+import '../theme/kinetic_theme.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -54,19 +40,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void _onGetStarted() {
     HapticFeedback.heavyImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: KineticPulseColors.surfaceTier2,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          'Initialized ${_trainingTracks[_selectedTrackIndex]['title']} Track',
-          style: GoogleFonts.barlowCondensed(
-            color: KineticPulseColors.electricLime,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const TrainingLabPage()),
     );
   }
 
@@ -80,7 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
           // Background Hero Photo with Dark Athletic Scrim
           Positioned.fill(
             child: Image.network(
-              'https://your-domain.com/assets/kinetic_hero_workout.jpg',
+              'https://ais-pre-cb4ztqfq4n4ynostoimym2-971516294115.europe-west2.run.app/assets/images/kinetic_hero_workout.jpg',
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
             ),
@@ -323,9 +298,12 @@ class _WelcomePageState extends State<WelcomePage> {
                     width: double.infinity,
                     height: 50,
                     child: OutlinedButton(
-                      onPressed: () {
-                        HapticFeedback.lightImpact();
-                      },
+                       onPressed: () {
+                         HapticFeedback.lightImpact();
+                         Navigator.of(context).push(
+                           MaterialPageRoute(builder: (_) => const AuthPage()),
+                         );
+                       },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: KineticPulseColors.neonCyan, width: 1.5),
                         shape: RoundedRectangleBorder(
